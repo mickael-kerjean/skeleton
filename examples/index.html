@@ -11,6 +11,8 @@
         <style>
          #app { width: 500px; margin: 50px auto 0 auto; font-family: system-ui; color: #444;}
          body { background: #f9f9f9; }
+         [role="navigation"] { padding: 0; }
+         [role="navigation"] li { list-style-type: none; padding: 0; }
         </style>
         <script src="./vendor/rxjs.umd.min.js"></script>
         <script type="module">
@@ -18,7 +20,8 @@
 
          const routes = {
              // point to the page controller which is an es6 module
-             "/examples/clock": "../examples/ctrl/clock.js",
+             "/examples/clock0": "../examples/ctrl/clock0.js",
+             "/examples/clock1": "../examples/ctrl/clock1.js",
              "/examples/counter": "../examples/ctrl/counter.js",
 
              // or inline the page controller if you prefer
@@ -26,12 +29,14 @@
                  view.next(`
                      <div class="component_homepage">
                          <h1>Home</h1>
-                         <p>
-                             <a href="./clock" data-link>clock</a>
-                             <a href="./counter" data-link>counter</a>
-                         </p>
+                         <ul role="navigation">
+                             <li><a href="./clock0" data-link>clock (basic version)</a></li>
+                             <li><a href="./clock1" data-link>clock (more efficient + animation)</a></li>
+                             <li><a href="./counter" data-link>counter</a></li>
+                         </ul>
                     </div>`
                  );
+                 view.complete();
              }),
          };
          main(document.getElementById("app"), routes, {});

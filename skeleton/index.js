@@ -30,7 +30,7 @@ export default function($root, routes, { spinner = `loading...` }) {
                 view($root);
                 break;
             case "object":
-                $root.replaceWith(view);
+                $root.replaceChildren(view);
                 break;
             default:
                 throw new Error("unknown view");

@@ -1,4 +1,4 @@
-import { destructor } from "../../skeleton/lifecycle.js";
+import { destructor } from "../../skeleton/index.js";
 import "../components/back-button.js";
 
 const CSS = `
@@ -32,12 +32,3 @@ export default rxjs.Observable.create(async (view) => {
         stream.unsubscribe();
     });
 });
-
-export function onInit($node) {
-    destructor(() => new Promise((done) => {
-        $node.animate( // in 2023, web animation is now a thing, no need for an extra library
-            [{ transform: "rotate(0) scale(1)" }, { transform: "rotate(360deg) scale(0)" }],
-            { duration: 1000 },
-        ).onfinish = done;
-    }));
-}
