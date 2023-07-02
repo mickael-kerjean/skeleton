@@ -1,41 +1,48 @@
-export { navigate } from "./router.js";
-export { destructor } from "./lifecycle.js";
-export { createElement } from "./dom.js";
-
 import { init as initRouter, currentRoute } from "./router.js";
 import { init as initDOM } from "./lifecycle.js";
-import { createElement } from "./dom.js";
 
-export default function($root, routes, { spinner = `loading...` }) {
-    initDOM($root);
-    initRouter($root).subscribe(async () => {
+export { navigate } from "./router.js";
+export { onDestroy } from "./lifecycle.js";
+
+export default async function($root, routes, opts = {}) {
+    const { spinner = "loading ...", spinnerTime = 200, defaultRoute = "/", onload = () => {} } = opts;
+
+    await initDOM($root);
+    await initRouter($root);
+
+    window.addEventListener("pagechange", async () => {
         await $root.cleanup();
-        const spinner$ = rxjs.timer(100).subscribe(() => $root.replaceWith(createElement(spinner)));
-        const _currentRoute = currentRoute(routes);
-        let page;
-        if (typeof _currentRoute === "string") {
-            page = await import(_currentRoute);
-        } else if (_currentRoute && typeof _currentRoute.subscribe === "function") {
-            page = {default: _currentRoute};
-        } else {
-            throw new Error("unknown route");
+        const route = currentRoute(routes, defaultRoute);
+        let ctrl;
+        if (typeof route === "function") {
+            ctrl = route;
+        } else if (typeof route === "string") {
+            const spinnerID = (typeof spinner === "string") && setTimeout(() => $root.innerHTML = spinner, spinnerTime);
+            const module = await import(route);
+            clearTimeout(spinnerID);
+            if (typeof module.default !== "function") throw new Error("default export must be a function");
+            ctrl = module.default;
         }
-        spinner$.unsubscribe();
-        page.default.subscribe(async (view) => {
+        if (typeof ctrl !== "function") throw new Error("unknown route for " + $root.outerHTML);
+        ctrl((view) => {
             switch(typeof view) {
             case "string":
-                $root.innerHTML = view;
-                break;
-            case "function":
-                view($root);
+                $root.replaceChildren(createElement(view));
                 break;
             case "object":
                 $root.replaceChildren(view);
                 break;
-            default:
-                throw new Error("unknown view");
+            case "function":
+                view($root.firstChild);
+                break;
             }
-            if (typeof page.onInit === "function") await page.onInit($root)
+            onload();
         });
     });
+}
+
+export function createElement(str) {
+    const $n = document.createElement("div");
+    $n.innerHTML = str;
+    return $n.firstElementChild;
 }

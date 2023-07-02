@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "skeleton-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+      "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "jsdom": "^22.1.0",
+    "puppeteer": "^20.7.3"
+  }
+}

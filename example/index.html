@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kitchen Sink</title>
+        <link rel="icon" href="data:;base64,=">
+        <link rel="stylesheet" href="index.css">
+        <script type="module" src="./components/loader.js"></script>
+    </head>
+    <body>
+        <div id="app" style="visibility:hidden;">
+            <div class="component_home">
+                <h2>Introduction</h2>
+                <ul role="navigation">
+                    <li><a href="/example/helloworld1" data-link>Hello World <i>2 screens</i></a></li>
+                    <li><a href="/example/component1" data-link>Component <i>3 screens</i></a></li>
+                    <li><a href="/example/attribute" data-link>Dynamic Attribute</a></li>
+                    <li><a href="/example/styling1" data-link>Styling <i>2 screens</i></a></li>
+                    <li><a href="/example/transition1" data-link>Transition <i>2 screens</i></a></li>
+                </ul>
+                <h2>Reactive Programming</h2>
+                <ul role="navigation">
+                    <li><a href="/example/dom" data-link>Bind the DOM</a></li>
+                    <li><a href="/example/event" data-link>Events</a></li>
+                    <li><a href="/example/form" data-link>Form</a></li>
+                </ul>
+                <h2>Mini apps</h2>
+                <ul role="navigation">
+                    <li><a href="/example/counter" data-link>React to events: A counter app</a></li>
+                    <li><a href="/example/clock0" data-link>React to events: making a clock app<i>3 screens</i></a></li>
+                    <li><a href="/example/ip" data-link>Ajax calls: IP Location app</a></li>
+                    <li><a href="/example/signup" data-link>Real life Form: a signup page</a></li>
+                    <li><a href="/example/todos" data-link>State Management: a todo app</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="codeviewer-app"></div>
+
+
+        <style>
+         :root {
+             --primary: #9AD1ED;
+             --emphasis: #466372;
+             --dark: #313538;
+             --color: #57595A;
+             --light: #f0f0f0;
+             --error: #f26d6d;
+         }
+        </style>
+        <script type="module">
+         import main from "../skeleton/index.js";
+
+         const $app = document.getElementById("app");
+         const $inlinedHomepage = $app.firstElementChild.cloneNode(true);
+         const routes = {
+             // introduction routes
+             "/example/helloworld1": "../example/ctrl/helloworld.js",  // each route in here is a page.
+             "/example/helloworld2": "../example/ctrl/helloworld2.js", // each page is an es6 module
+             "/example/component1": "../example/ctrl/component.js",    // es6 module must have a default export
+             "/example/component2": "../example/ctrl/component2.js",   // the default export is executed by the route
+             "/example/component3": "../example/ctrl/component3.js",
+             "/example/attribute": "../example/ctrl/attribute.js",
+             "/example/styling1": "../example/ctrl/styling.js",
+             "/example/styling2": "../example/ctrl/styling2.js",
+             "/example/transition1": "../example/ctrl/transition.js",
+             "/example/transition2": "../example/ctrl/transition2.js",
+             // reactive programming
+             "/example/dom": "../example/ctrl/dom.js",
+             "/example/event": "../example/ctrl/event.js",
+             "/example/form": "../example/ctrl/form.js",
+             // sample apps
+             "/example/clock0": "../example/ctrl/clock0.js",
+             "/example/clock1": "../example/ctrl/clock1.js",
+             "/example/clock2": "../example/ctrl/clock2.js",
+             "/example/counter": "../example/ctrl/counter.js",
+             "/example/todos": "../example/ctrl/todos/index.js",
+             "/example/ip": "../example/ctrl/ip.js",
+             "/example/signup": "../example/ctrl/signup.js",
+             // inlined homepage
+             "/": (render) => {
+                 render($inlinedHomepage);
+                 $inlinedHomepage.animate([
+                     {opacity: "0", transform: "translateX(-5px)"},
+                     {opacity: "1", transform: "translateX(0)"},
+                 ], {duration: 200});
+             },
+         };
+
+         main($app, routes, {
+             spinner: "<component-loader></component-loader>",
+             onload: () => $app.style.visibility = "visible",
+         });
+        </script>
+
+        <noscript>
+            <div>
+                <h2>Error: Javascript is off</h2>
+                <p>You need to enable Javascript to run this application</p>
+            </div>
+        </noscript>
+
+
+
+
+
+
+
+
+
+
+        <script type="module">
+         import main from "../skeleton/index.js";
+         import { importJS, importCSS } from "./helpers/importer.js";
+
+         import "./components/codeviewer.js";
+         import "./components/forkme.js";
+
+         const base = location.href.replace(/\/[^\/]+$/, "").replace(/\/$/, "");
+         const URLMAP = {
+             // introduction route
+             "/example/helloworld1": base + "/ctrl/helloworld.js",
+             "/example/helloworld2": base + "/ctrl/helloworld2.js",
+             "/example/component1": base + "/ctrl/component.js",
+             "/example/component2": base + "/ctrl/component2.js",
+             "/example/component3": base + "/ctrl/component3.js",
+             "/example/attribute": base + "/ctrl/attribute.js",
+             "/example/styling1": base + "/ctrl/styling.js",
+             "/example/styling2": base + "/ctrl/styling2.js",
+             "/example/transition1": base + "/ctrl/transition.js",
+             "/example/transition2": base + "/ctrl/transition2.js",
+
+             // reactive programming
+             "/example/dom": base + "/ctrl/dom.js",
+             "/example/event": base + "/ctrl/event.js",
+             "/example/form": base + "/ctrl/form.js",
+
+             // common
+             "/example/clock0": base + "/ctrl/clock0.js",
+             "/example/clock1": base + "/ctrl/clock1.js",
+             "/example/clock2": base + "/ctrl/clock2.js",
+
+             "/example/counter": base + "/ctrl/counter.js",
+             "/example/todos": base + "/ctrl/todos/index.js",
+             "/example/ip": base + "/ctrl/ip.js",
+             "/example/signup": base + "/ctrl/signup.js",
+             "/example/": base + "/../index.html",
+             "/skeleton/example/index.html": base + "/../index.html",
+             "/skeleton/example/": base + "/../index.html",
+         };
+
+         main(document.getElementById("codeviewer-app"), {
+             "/": async (render) => {
+                 if (document.body.clientWidth <= 1000) return;
+                 await importCSS("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/atom-one-light.min.css");
+                 await importJS("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js");
+                 hljs.configure({ noHighlightRe: /^do-not-highlightme$/i });
+
+                 render(`
+                     <div>
+                         <component-forkme></component-forkme>
+                         <component-codeviewer src="${URLMAP[location.pathname] || ""}"></component-codeviewer>
+                     </div>
+                 `);
+             },
+         });
+        </script>
+    </body>
+</html>

@@ -8,20 +8,27 @@ const CSS = `
 }
 `
 class BackButton extends HTMLElement {
-    click$ = null;
-    
+    events = [];
+
     constructor() {
         super();
-        if (!navigation.canGoBack) return;
+        if (window.navigation && window.navigation.canGoBack === false) {
+            return;
+        }
         this.innerHTML = this.render();
-        this.click$ = rxjs.fromEvent(this.querySelector(".component_link"), "click").pipe(
-            rxjs.tap((e) => e.preventDefault()),
-            rxjs.tap(() => navigation.back()),
-        ).subscribe(() => {})
+        
+        const $link = this.querySelector(".component_link");
+        $link.addEventListener("click", this.onClick);
+        this.events.push(() => $link.removeEventListener("click", this.onClick));
+    }
+
+    onClick(e) {
+        e.preventDefault();
+        history.back();
     }
 
     disconnectedCallback() {
-        if(this.click$) this.click$.unsubscribe()
+        this.events.map((cleanupFn) => cleanupFn());
     }
 
     render(content) {
@@ -34,4 +41,4 @@ class BackButton extends HTMLElement {
     }
 }
 
-window.customElements.define("back-button", BackButton);
+window.customElements.define("component-back", BackButton);

@@ -1,44 +1,31 @@
-const _navigator$ = new rxjs.Subject();
+const triggerPageChange = () => window.dispatchEvent(new Event("pagechange"));
 
 export function init($root) {
-    initLinkClick($root);
-    return rxjs.merge(
-        rxjs.fromEvent(window, "DOMContentLoaded"),
-        rxjs.fromEvent(window, "popstate"),
-        _navigator$.asObservable(),
-    );
+    window.addEventListener("DOMContentLoaded", triggerPageChange);
+    window.addEventListener("popstate", triggerPageChange);
+    $root.addEventListener("click", (e) => {
+        const href = _getHref(e.target, $root);
+        return href ? e.preventDefault() || navigate(href) : null;
+    });
 }
 
 export function navigate(href) {
-    history.pushState("", "", href)
-    _navigator$.next(href);
+    history.pushState("", "", href);
+    triggerPageChange();
 }
 
-export function currentRoute(r) {
-    let sel = null;
+export function currentRoute(r, defaultRoute) {
     for (const prefix in r) {
         if (location.pathname.startsWith(prefix)) {
-            sel = prefix;
-            break;
+            return r[prefix];
         }
     }
-    return r[sel] || r["/"];
+    return r[defaultRoute];
 }
 
-function initLinkClick($root) {
-    const _getHref = ($node) => {
-        if (!$node.matches("[data-link]")) {
-            if (!$node.parentElement) return null;
-            return _getHref($node.parentElement);
-        }
-        return $node.getAttribute("href");
-    };
-    rxjs.fromEvent($root, "click").pipe(
-        rxjs.map((e) => {
-            const href = _getHref(e.target)
-            href && e.preventDefault();
-            return href;
-        }),
-        rxjs.filter((href) => href),
-    ).subscribe(navigate);
+function _getHref ($node, $root) {
+    if ($node.matches("[data-link]")) return $node.getAttribute("href");
+    if ($node.isSameNode($root)) return null;
+    if (!$node.parentElement) return null;
+    return _getHref($node.parentElement, $root);
 }

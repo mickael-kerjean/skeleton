@@ -1,0 +1,32 @@
+<!--
+This is a scaffold to bootstrap an application in vanilla JS. The skeleton folder
+contains our main function which is effectively our router and fit in ~80 lines of code.
+
+To get started with this scaffold:
+1. clone https://github.com/mickael-kerjean/skeleton
+2. start editing the index.html at the root
+3. make run to quickstart a web server to serve all the static content
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project Scaffolding</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="module">
+         import main from "./skeleton/index.js";
+
+         const routes = {
+             "/": "../example/ctrl/redirect.js",
+         };
+
+         main(document.getElementById("app"), routes, {
+             spinner: "<component-loader></component-loader>",
+         });
+        </script>
+    </body>
+</html>

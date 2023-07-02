@@ -1,0 +1,23 @@
+html, body { height: 100%; }
+body { background: #f9f9f9; display: flex; font-family: system-ui; margin: 0; }
+
+/* layout */
+#app, #codeviewer-app {flex-grow:1; width: 100%; height: 100%; overflow-y: auto; }
+#app { margin: 0px auto 0 auto; color: var(--color); padding: 50px 4% 100px 4%; max-width: 700px; box-sizing: border-box; }
+@media only screen and (max-width: 1000px) { #codeviewer-app { display: none; } }
+
+/* design system */
+h1, h2, h3, h4, h5 { color: var(--dark); }
+a { color: var(--emphasis); }
+a.button, button { display: block; background: var(--primary); color: var(--emphasis); text-decoration: none; text-align: center; padding: 7px 0; border-radius: 3px; font-weight: bold; width: 100%; border: none; cursor: pointer; border: 2px solid var(--emphasis); }
+button[disabled] { opacity: 0.4; }
+.box { background: var(--dark); color: #e2e2e2; padding: 15px; border-radius: 3px; box-shadow: 2px 2px 5px rgba(0,0,0,0.4); box-sizing: border-box; }
+input, select { background: white; outline: none; color: var(--emphasis); box-sizing: border-box; border: 2px solid var(--light); margin-bottom: 1rem; display: block; padding: 7px 10px; border-radius: 3px; font-size: 0.9rem; width: 100%; }
+
+/* homepage stuff */
+#app [role="navigation"] { padding: 0; margin: 0 }
+#app h2 { margin-bottom: 10px; }
+#app [role="navigation"] li { list-style-type: none; padding: 0; }
+#app [role="navigation"] li a { display: block; background: white; margin: 5px 0; padding: 10px; border: 2px solid var(--light); border-radius: 3px; text-decoration: none; color: inherit; }
+#app [role="navigation"] li a:after { content: " "; width: 15px; height: 15px; float: right; background-repeat: no-repeat; opacity: 0.2; margin-top: 2px; background-image: url("data:image/svg+xml,<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-chevron-right' fill='currentColor' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/></svg>"); }
+#app [role="navigation"] li a > i { padding-left: 10px; font-size: 0.8rem; }
