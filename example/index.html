@@ -55,28 +55,28 @@
          const $inlinedHomepage = $app.firstElementChild.cloneNode(true);
          const routes = {
              // introduction routes
-             "/example/helloworld1": "../example/ctrl/helloworld.js",  // each route in here is a page.
-             "/example/helloworld2": "../example/ctrl/helloworld2.js", // each page is an es6 module
-             "/example/component1": "../example/ctrl/component.js",    // es6 module must have a default export
-             "/example/component2": "../example/ctrl/component2.js",   // the default export is executed by the route
-             "/example/component3": "../example/ctrl/component3.js",
-             "/example/attribute": "../example/ctrl/attribute.js",
-             "/example/styling1": "../example/ctrl/styling.js",
-             "/example/styling2": "../example/ctrl/styling2.js",
-             "/example/transition1": "../example/ctrl/transition.js",
-             "/example/transition2": "../example/ctrl/transition2.js",
+             "/example/helloworld1": "example/ctrl/helloworld.js",  // each route in here is a page.
+             "/example/helloworld2": "example/ctrl/helloworld2.js", // each page is an es6 module
+             "/example/component1": "example/ctrl/component.js",    // es6 module must have a default export
+             "/example/component2": "example/ctrl/component2.js",   // the default export is executed by the route
+             "/example/component3": "example/ctrl/component3.js",
+             "/example/attribute": "example/ctrl/attribute.js",
+             "/example/styling1": "example/ctrl/styling.js",
+             "/example/styling2": "example/ctrl/styling2.js",
+             "/example/transition1": "example/ctrl/transition.js",
+             "/example/transition2": "example/ctrl/transition2.js",
              // reactive programming
-             "/example/dom": "../example/ctrl/dom.js",
-             "/example/event": "../example/ctrl/event.js",
-             "/example/form": "../example/ctrl/form.js",
+             "/example/dom": "example/ctrl/dom.js",
+             "/example/event": "example/ctrl/event.js",
+             "/example/form": "example/ctrl/form.js",
              // sample apps
-             "/example/clock0": "../example/ctrl/clock0.js",
-             "/example/clock1": "../example/ctrl/clock1.js",
-             "/example/clock2": "../example/ctrl/clock2.js",
-             "/example/counter": "../example/ctrl/counter.js",
-             "/example/todos": "../example/ctrl/todos/index.js",
-             "/example/ip": "../example/ctrl/ip.js",
-             "/example/signup": "../example/ctrl/signup.js",
+             "/example/clock0": "example/ctrl/clock0.js",
+             "/example/clock1": "example/ctrl/clock1.js",
+             "/example/clock2": "example/ctrl/clock2.js",
+             "/example/counter": "example/ctrl/counter.js",
+             "/example/todos": "example/ctrl/todos/index.js",
+             "/example/ip": "example/ctrl/ip.js",
+             "/example/signup": "example/ctrl/signup.js",
              // inlined homepage
              "/": (render) => {
                  render($inlinedHomepage);

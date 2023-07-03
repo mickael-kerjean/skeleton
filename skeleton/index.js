@@ -18,7 +18,7 @@ export default async function($root, routes, opts = {}) {
             ctrl = route;
         } else if (typeof route === "string") {
             const spinnerID = (typeof spinner === "string") && setTimeout(() => $root.innerHTML = spinner, spinnerTime);
-            const module = await import(route);
+            const module = await import("../" + route);
             clearTimeout(spinnerID);
             if (typeof module.default !== "function") throw new Error("default export must be a function");
             ctrl = module.default;
