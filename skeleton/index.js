@@ -7,8 +7,8 @@ export { onDestroy } from "./lifecycle.js";
 export default async function($root, routes, opts = {}) {
     const { spinner = "loading ...", spinnerTime = 200, defaultRoute = "/", onload = () => {} } = opts;
 
-    await initDOM($root);
-    await initRouter($root);
+    initDOM($root);
+    initRouter($root);
 
     window.addEventListener("pagechange", async () => {
         await $root.cleanup();
@@ -20,29 +20,21 @@ export default async function($root, routes, opts = {}) {
             const spinnerID = (typeof spinner === "string") && setTimeout(() => $root.innerHTML = spinner, spinnerTime);
             const module = await import("../" + route);
             clearTimeout(spinnerID);
-            if (typeof module.default !== "function") throw new Error("default export must be a function");
+            if (typeof module.default !== "function") return $root.replaceChildren(createElement(`<div><h1>Error</h1><p>missing default export on ${route}`));
             ctrl = module.default;
         }
-        if (typeof ctrl !== "function") throw new Error("unknown route for " + $root.outerHTML);
+        if (typeof ctrl !== "function") return $root.replaceChildren(createElement(`<div><h1>Error</h1><p>Unknown route for ${route}`));
         ctrl((view) => {
-            switch(typeof view) {
-            case "string":
-                $root.replaceChildren(createElement(view));
-                break;
-            case "object":
-                $root.replaceChildren(view);
-                break;
-            case "function":
-                view($root.firstChild);
-                break;
-            }
+            if (typeof view === "string") $root.replaceChildren(createElement(view));
+            else if (view instanceof window.Element) $root.replaceChildren(view);
+            else $root.replaceChildren(createElement(`<div><h1>Error</h1><p>Unknown view type: ${typeof view}</p></div>`));
             onload();
         });
     });
 }
 
 export function createElement(str) {
-    const $n = document.createElement("div");
+    const $n = window.document.createElement("div");
     $n.innerHTML = str;
     return $n.firstElementChild;
 }
